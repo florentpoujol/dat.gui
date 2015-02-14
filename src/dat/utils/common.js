@@ -149,17 +149,15 @@ define([
     // called from GUI.js add()
     // @return {boolean} Whether the property is indeed dynamic (true), or not (false).
     setupDynamicProperty: function( object, property ) {
-      if ( dynamicPropertiesByObject[ object ] === undefined ) {
-        dynamicPropertiesByObject[ object ] = {};
-      }
-      if ( dynamicPropertiesByObject[ object ][ property ] === undefined ) {
-        var ucProperty = property.charAt(0).toUpperCase() + property.slice(1);
-        var getter = object[ "get"+ucProperty ];
-        var setter = object[ "set"+ucProperty ];
-        if ( typeof getter === "function" || typeof setter === "function" ) {
-          dynamicPropertiesByObject[ object ][ property ] = { getter: getter, setter: setter };
-          return true;
+      var ucProperty = property.charAt(0).toUpperCase() + property.slice(1);
+      var getter = object[ "get"+ucProperty ];
+      var setter = object[ "set"+ucProperty ];
+      if ( typeof getter === "function" && typeof setter === "function" ) {
+        if ( dynamicPropertiesByObject[ object ] === undefined ) {
+          dynamicPropertiesByObject[ object ] = {};
         }
+        dynamicPropertiesByObject[ object ][ property ] = { getter: getter, setter: setter };
+        return true;
       }
       return false;
     },
