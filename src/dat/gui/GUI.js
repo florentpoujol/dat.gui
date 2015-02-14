@@ -798,7 +798,7 @@ define([
 
   function add(gui, object, property, params) {
 
-    if (object[property] === undefined) {
+    if ( object[property] === undefined && common.setupDynamicProperty( object, property ) === false ) {
       throw new Error("Object " + object + " has no property \"" + property + "\"");
     }
 

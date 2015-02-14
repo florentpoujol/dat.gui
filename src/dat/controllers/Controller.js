@@ -25,7 +25,7 @@ define([
    */
   var Controller = function(object, property) {
 
-    this.initialValue = object[property];
+    this.initialValue = common.getPropertyValue( object, property );
 
     /**
      * Those who extend this class will put their DOM elements in here.
@@ -101,7 +101,7 @@ define([
          * @param {Object} newValue The new value of <code>object[property]</code>
          */
         setValue: function(newValue) {
-          this.object[this.property] = newValue;
+          common.setPropertyValue( this.object, this.property, newValue );
           if (this.__onChange) {
             this.__onChange.call(this, newValue);
           }
@@ -115,7 +115,7 @@ define([
          * @returns {Object} The current value of <code>object[property]</code>
          */
         getValue: function() {
-          return this.object[this.property];
+          return common.getPropertyValue( this.object, this.property );
         },
 
         /**

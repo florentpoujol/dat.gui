@@ -24,7 +24,7 @@ define([
 
       return function(object, property) {
 
-        var initialValue = object[property];
+        var initialValue = common.getPropertyValue( object, property );
 
         // Providing options?
         if (common.isArray(arguments[2]) || common.isObject(arguments[2])) {
