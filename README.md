@@ -1,10 +1,21 @@
-## dynamic_properties branch
+## superpowers branch
 
-This branch add the possibility for controllers to handle "dynamic properties".
+This branch contains the modifications so that dat.GUI can work nicely in [Supepowers, the extensible HTML5 2D+3D game engine](http://sparklinlabs.com).
 
-It means that the property supplied to the controller may not exist as such on the supplied object but in the form of a couple of standard getter/setter functions that match the property's name.
+### Dynamic properties
 
-Ie: the property `"position"` match the `getPosition()`/`setPosition()` functions.
+It add the possibility for controllers to handle "dynamic properties".  
+
+It means that the property supplied to the controller may not exist as such on the supplied object but in the form of a couple of standard getter/setter functions that match the property's name.  
+
+Ie: the property `"position"` match the `getPosition()`/`setPosition()` functions.  
+
+For this to work, the object and the property must be passed to `dat.utils.common.setupDynamicProperty()` and the value must be get/set via `dat.utils.common.get/setPropertyValue()`.  
+This is done automaticaly when the controller is added via `GUI.add()`.
+
+### RGB color in range 0-1
+
+The color controler can now handle colors which maximum RGB components values is 1 instead of 255, when `true` is passed as thrid argument of `GUI.addColor()` (or `new ColorController()`).
 
 ---
 Original dat.GUI readme below:

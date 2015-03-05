@@ -19,11 +19,24 @@ define([
   'dat/utils/common'
 ], function(Controller, dom, Color, interpret, common) {
 
-  var ColorController = function(object, property) {
+  var ColorController = function(object, property, rgb1) {
 
     ColorController.superclass.call(this, object, property);
 
     this.__color = new Color(this.getValue());
+
+    // called from below and from updateDisplay()
+    this.toRgb255 = function( object ) {
+      object.r *= 255;
+      object.g *= 255;
+      object.b *= 255;
+    };
+
+    this.rgb1 = rgb1;
+    if (this.rgb1) {
+      this.toRgb255( this.__color.__state );
+    }
+
     this.__temp = new Color(0);
 
     var _this = this;
@@ -185,6 +198,22 @@ define([
 
     this.updateDisplay();
 
+    function originalColorToRgb1( oColor ) {
+      if (Array.isArray(oColor) === true) {
+        oColor[0] /= 255;
+        oColor[1] /= 255;
+        oColor[2] /= 255;
+      }
+      else if (oColor !== null && typeof oColor === "object") {
+        oColor.r /= 255;
+        oColor.g /= 255;
+        oColor.b /= 255;
+      }
+      else {
+        console.log("dat.GUI:ColorController:originalColorToRgb1(): Unknow original color type", oColor);
+      }
+    }
+
     function setSV(e) {
 
       e.preventDefault();
@@ -203,8 +232,11 @@ define([
       _this.__color.v = v;
       _this.__color.s = s;
 
-      _this.setValue(_this.__color.toOriginal());
-
+      var oColor = _this.__color.toOriginal();
+      if (_this.rgb1) {
+        originalColorToRgb1(oColor);
+      }
+      _this.setValue(oColor);
 
       return false;
 
@@ -223,7 +255,11 @@ define([
 
       _this.__color.h = h * 360;
 
-      _this.setValue(_this.__color.toOriginal());
+      var oColor = _this.__color.toOriginal();
+      if (_this.rgb1) {
+        originalColorToRgb1(oColor);
+      }
+      _this.setValue(oColor);
 
       return false;
 
@@ -243,6 +279,9 @@ define([
         updateDisplay: function() {
 
           var i = interpret(this.getValue());
+          if (this.rgb1) {
+            this.toRgb255( i );
+          }
 
           if (i !== false) {
 

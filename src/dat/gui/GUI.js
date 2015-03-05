@@ -520,17 +520,19 @@ define([
         /**
          * @param object
          * @param property
+         * @param rgb1 {boolean} Tell wether the rgb components' values are in the 0-1 range (true), or 0-255 (false (default)).
          * @returns {dat.controllers.ColorController} The new controller that was added.
          * @instance
          */
-        addColor: function(object, property) {
+        addColor: function(object, property, rgb1) {
 
           return add(
               this,
               object,
               property,
               {
-                color: true
+                color: true,
+                rgb1: rgb1
               }
           );
 
