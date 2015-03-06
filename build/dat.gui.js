@@ -2350,7 +2350,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
     if (params.color) {
 
-      controller = new ColorController(object, property);
+      controller = new ColorController(object, property, params.rgb1);
 
     } else {
 
